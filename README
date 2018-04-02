@@ -1,0 +1,31 @@
+Copyright (c) 2017-2018 JC Yang (bandinfinite@gmail.com)
+All rights reserved.
+
+A seamless wrapper library to apply boost::asio within c++ coroutines-ts(conform to N4680 and probably any later version)
+
+One of stackless coroutine's sellpoint is enabling painless/simple/natural/high efficiency async io codes.
+But how to?
+Actually it is not too difficult if we base our work on top of the state-of-art boost::asio(the de-facto  origin of Networking TS). And this is what this wrapper library for.
+
+This is a header only library depends on boost::asio and certain C++17 features(std::optional for example).
+MSVC 2017+ and clang 5.0+ support coroutines-ts.
+And you can even use clang + libstdc++ combination when you add include/coroutines.h to your project(effectively enable it on most linux environments).
+
+Q: How to use?
+A: Simply #include "coro_io.hpp", and for any boost::asio async functions, call the corresponding one in coro_io namespace instead.
+For example,
+   boost::asio::ip::tcp::socket ts;
+   ts.async_send(..., completion_handler);
+   
+   should be turned into:
+   boost::asio::ip::tcp::socket ts;
+   auto [error_code, bytes_sent] = co_await coro_io::async_send(ts, ...);
+   // ... continue what you need to do after data sent, you no longer need the completion_handler.
+   // Attention: co_await on anything co_awaitable turn your function into a stackless-coroutine!
+   
+
+Read the example/demo.cpp for trivial demo and you'll get it. It's simple.
+
+The library is distributed under the Boost Software License, Version 1.0. (See accompanying file LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt)
+ 
+Bug report and any implementations/documents(not-yet-availbale!!!) improvement are welcome.
