@@ -1,7 +1,7 @@
 Copyright (c) 2017-2018 JC Yang (bandinfinite@gmail.com)
 All rights reserved.
 
-A seamless wrapper library to apply boost::asio within c++ coroutines-ts(conform to N4680 and probably any later version)
+A seamless wrapper library to apply boost::asio with coroutines introduced by c++ coroutines-ts(conform to N4680 and probably any later version)
 
 One of stackless coroutine's sellpoint is enabling painless/simple/natural/high efficiency async io codes.
 But how to?
