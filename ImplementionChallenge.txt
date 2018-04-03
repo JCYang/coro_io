@@ -6,7 +6,7 @@ JobCoordinator). But this is a necessary detail to ensure the correctness of the
 Why the JobCoordinator need to be on the heap and shared?
 You might think that either operation complete or timeout cancel the other will render the codes safe, unfortunately that's not the case.
 The cancel() semantic provided by boost::asio guarantee only "Cancel the operation that hasn't entered the completion queues of the corresponding io_service",
-but "the already queued completion/timeout handler will still be invoke sometime in the future, at least you abandon the whole queue altogether".
+but "the already queued completion/timeout handler will still be invoked sometime in the future, unless you abandon the whole queue altogether".
 
 So if we do place the JobCoordinator within the coroutine frame,  when either side of the job(be it completed or timeout),  cancel() an already queued 
 counterpart, it will introduce a possible UB. When the handler of the not-yet-effectively-canceled counterpart run, the reference to JobCoordinator may 
